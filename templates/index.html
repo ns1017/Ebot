@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Automotive Listings Dashboard</title>
+<meta http-equiv="refresh" content="60">
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #12141a; color: #e8e8ec; margin: 0; padding: 24px; }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; }
+  .sub { color: #9a9aa5; font-size: 0.85rem; margin-bottom: 20px; }
+  form.filters { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  select, button { background: #1c1f28; color: #e8e8ec; border: 1px solid #333844; border-radius: 6px; padding: 6px 10px; font-size: 0.85rem; }
+  button { cursor: pointer; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #262a34; vertical-align: top; }
+  th { color: #9a9aa5; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.03em; }
+  a { color: #7aa2ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 600; }
+  .badge-good_deal { background: #1e3a2a; color: #6fd18f; }
+  .badge-scam_risk { background: #3a1e1e; color: #f08080; }
+  .badge-normal { background: #23262f; color: #9a9aa5; }
+  .badge-unclear { background: #2a2618; color: #d9b95c; }
+  .badge-outlier { background: #23262f; color: #d9b95c; border: 1px solid #d9b95c; margin-left: 6px; }
+  .empty { color: #6a6a75; padding: 40px 0; text-align: center; }
+  .price { font-weight: 600; }
+</style>
+</head>
+<body>
+  <h1>Automotive Listings Dashboard</h1>
+  <div class="sub">eBay results, auto-refreshes every 60s &middot; {{ listings|length }} shown</div>
+
+  <form class="filters" method="get">
+    <select name="target" onchange="this.form.submit()">
+      <option value="">All search targets</option>
+      {% for t in targets %}
+        <option value="{{ t }}" {% if t == current_target %}selected{% endif %}>{{ t }}</option>
+      {% endfor %}
+    </select>
+
+    <select name="verdict" onchange="this.form.submit()">
+      <option value="">All verdicts</option>
+      <option value="good_deal" {% if current_verdict == "good_deal" %}selected{% endif %}>Good deal</option>
+      <option value="scam_risk" {% if current_verdict == "scam_risk" %}selected{% endif %}>Scam risk</option>
+      <option value="normal" {% if current_verdict == "normal" %}selected{% endif %}>Normal</option>
+      <option value="unclear" {% if current_verdict == "unclear" %}selected{% endif %}>Unclear</option>
+    </select>
+
+    <label style="font-size:0.85rem; display:flex; align-items:center; gap:6px;">
+      <input type="checkbox" name="outliers_only" value="true" {% if outliers_only %}checked{% endif %} onchange="this.form.submit()">
+      Outliers only
+    </label>
+
+    <button type="submit">Apply</button>
+  </form>
+
+  {% if listings %}
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Target</th>
+        <th>Condition</th>
+        <th>Location</th>
+        <th>Verdict</th>
+        <th>Last seen</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for l in listings %}
+      <tr>
+        <td><a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.title }}</a></td>
+        <td class="price">${{ "%.2f"|format(l.price) if l.price is not none else "?" }}</td>
+        <td>{{ l.search_target }}</td>
+        <td>{{ l.condition or "-" }}</td>
+        <td>{{ l.location or "-" }}</td>
+        <td>
+          {% if l.ollama_verdict %}
+            <span class="badge badge-{{ l.ollama_verdict }}">{{ l.ollama_verdict.replace("_", " ") }}</span>
+          {% endif %}
+          {% if l.is_outlier %}
+            <span class="badge badge-outlier">outlier</span>
+          {% endif %}
+        </td>
+        <td>{{ l.last_seen[:16] if l.last_seen else "-" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <div class="empty">No listings yet. Once the scrape loop completes a cycle, results will show up here.</div>
+  {% endif %}
+</body>
+</html>
