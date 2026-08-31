@@ -1,0 +1,57 @@
+[
+  {
+    "name": "obf1-ecu",
+    "enabled": true,
+    "query": "obf1 ecu",
+    "price_min": 100,
+    "price_max": 1500,
+    "include_keywords": [],
+    "exclude_keywords": [],
+    "max_pages": 2,
+    "notes": ""
+  },
+  {
+    "name": "Honda OBD1P28",
+    "enabled": true,
+    "query": "Honda OBD1 P28",
+    "price_min": 100,
+    "price_max": 1500,
+    "include_keywords": [],
+    "exclude_keywords": [],
+    "max_pages": 2,
+    "notes": ""
+  },
+  {
+    "name": "Honda OBD1P06",
+    "enabled": true,
+    "query": "Honda OBD1 P06",
+    "price_min": 100,
+    "price_max": 1500,
+    "include_keywords": [],
+    "exclude_keywords": [],
+    "max_pages": 2,
+    "notes": ""
+  },
+  {
+    "name": "Honda OBD1P72",
+    "enabled": true,
+    "query": "Honda OBD1 P72",
+    "price_min": 100,
+    "price_max": 1500,
+    "include_keywords": [],
+    "exclude_keywords": [],
+    "max_pages": 2,
+    "notes": ""
+  },
+  {
+    "name": "HondataS300",
+    "enabled": true,
+    "query": "Hondata s300",
+    "price_min": 100,
+    "price_max": 1500,
+    "include_keywords": [],
+    "exclude_keywords": [],
+    "max_pages": 2,
+    "notes": ""
+  }
+]
