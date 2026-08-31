@@ -1,0 +1,38 @@
+{
+  "database": {
+    "path": "data/listings.db"
+  },
+  "scraper": {
+    "poll_interval_min_seconds": 900,
+    "poll_interval_max_seconds": 1800,
+    "delay_between_requests_min_seconds": 3,
+    "delay_between_requests_max_seconds": 9,
+    "request_timeout_seconds": 15,
+    "max_retries": 3,
+    "max_pages_per_target": 3,
+    "user_agents": [
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15",
+      "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0"
+    ]
+  },
+  "rules": {
+    "default_price_min": 0,
+    "default_price_max": null,
+    "global_exclude_keywords": ["parts only", "no title", "salvage", "for parts", "not running", "parting out"],
+    "global_include_keywords": [],
+    "outlier_zscore_threshold": 1.5,
+    "outlier_min_samples": 5
+  },
+  "ollama": {
+    "enabled": true,
+    "host": "http://localhost:11434",
+    "model": "llama3.2:3b",
+    "timeout_seconds": 120
+  },
+  "dashboard": {
+    "host": "127.0.0.1",
+    "port": 8000
+  }
+}
